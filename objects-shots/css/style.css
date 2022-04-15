@@ -1,0 +1,116 @@
+/******************************************
+/* CSS
+/*******************************************/
+
+/* Box Model Hack */
+* {
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 62.5%;
+	height: 100%;
+}
+body {
+	height: 100%;
+}
+
+/******************************************
+/* LAYOUT
+/*******************************************/
+img {
+	display: block;
+	max-width: 350px;
+	object-fit: cover;
+}
+
+.search-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+/******************************************
+/* ADDITIONAL STYLES
+/*******************************************/
+
+h1 {
+	text-align: center;
+	font-size: 7.2rem;
+	margin-bottom: 2.4rem;
+	padding-top: 4.8rem;
+}
+input {
+	width: 300px;
+	height: 30px;
+	padding: 1.4rem 0.3rem;
+	font-size: 1.8rem;
+	margin-bottom: 4.8rem;
+	display: flex;
+}
+
+h2 {
+	font-size: 4.8rem;
+	margin-bottom: 4.8rem;
+	grid-column: 1 / -1;
+	justify-self: center;
+}
+h3 {
+	font-size: 3.6rem;
+	margin-bottom: 1.2rem;
+}
+
+p {
+	font-size: 1.6rem;
+	width: 60ch;
+	line-height: 1.5;
+	margin-bottom: 1.2rem;
+}
+
+a:link,
+a:visited {
+	display: inline-block;
+	font-size: 1.6rem;
+	margin-bottom: 2.4rem;
+}
+
+input:focus {
+	outline: none;
+}
+input::placeholder {
+	font-size: 1.8rem;
+	color: black;
+	opacity: 1;
+}
+
+input:focus::placeholder {
+	color: transparent;
+}
+
+.drink-items {
+	display: flex;
+	justify-content: center;
+	gap: 2.4rem;
+}
+
+.title {
+	text-align: center;
+}
+
+.img-container {
+	width: 50%;
+	display: flex;
+	justify-content: flex-end;
+}
+.instructions {
+	width: 50%;
+}
+
+ul {
+	/* list-style-type: disc; */
+}
+
+li {
+	font-size: 1.6rem;
+}
