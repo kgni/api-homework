@@ -1,63 +1,57 @@
-const btn = document.querySelector('button');
-btn.addEventListener('click', fetchWeather);
+const searchBtn = document.querySelector('.btn');
+const currentCity = document.querySelector('.current-city');
+const currentCityLocation = document.querySelector('.current-city-location');
+const currentTemp = document.querySelector('.current-temp');
+const currentIcon = document.querySelector('.current-icon');
+const weatherDescription = document.querySelector('.weather-description');
+
+searchBtn.addEventListener('click', fetchWeather);
 const API_KEY = '0a0a00077254b920fcee144964349838';
 
-function fetchLatLon() {
-	const input = document.querySelector('input').value;
-	return fetch(
-		`http://api.openweathermap.org/geo/1.0/direct?q=${input}&limit=1&appid=${API_KEY}`
-	)
-		.then((res) => res.json())
-		.then((data) => {
-			let lat = data[0].lat;
-			let lon = data[0].lon;
-			return [lat, lon];
-		});
+async function fetchWeather() {
+	// Saving the data from our fetchLatLon() function.
+	const location = await fetchLatLon();
+
+	// destructuring the data, for us to use in a new fetch
+	const [lat, lon, searchInput] = location;
+
+	// fetching the weather data providing a specific lat and lon.
+	const resWeather = await fetch(
+		`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
+	);
+	const dataWeather = await resWeather.json();
+	console.log(dataWeather);
+
+	// destructuring the data we receive back from our fetch (after we parse)
+	let { name, main, wind, weather } = dataWeather;
+
+	// Inserting data into the DOM.
+	currentCity.innerText = `${searchInput},`;
+	currentCityLocation.innerText = ` ${name}`;
+	currentTemp.innerText = `${main.temp.toFixed(1)} °C`;
+	currentIcon.src = `http://openweathermap.org/img/wn/${weather[0].icon}@2x.png
+	`;
+
+	weatherDescription.innerText = weather[0].main;
+
+	console.log(weather.icon);
 }
 
-async function fetchWeather() {
-	let latLon = await fetchLatLon();
-	let lat = latLon[0];
-	let lon = latLon[1];
+// In order for us to fetch the weather, we need lattitude and longtitude for the city/location we are inputting.
 
-	fetch(
-		`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
-	)
-		.then((res) => res.json())
-		.then((data) => {
-			document.querySelector('.place').innerText = data.name;
-			document.querySelector('.weather').innerText = data.weather[0].main;
+async function fetchLatLon() {
+	// Getting the value from the text input (what the user is searching for)
+	const searchInput = document.querySelector('input').value;
+	// Fetching the data, using the fetch API (using await cause this is async)
+	const resLanLon = await fetch(
+		`http://api.openweathermap.org/geo/1.0/direct?q=${searchInput}&limit=1&appid=${API_KEY}`
+	);
+	// parsing the json to a javascript object. .json() method also returns a promise, so we await this to get resolved.
+	const dataLanLon = await resLanLon.json();
 
-			document.querySelector(
-				'.weather-icon'
-			).src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
-			document.querySelector(
-				'.temperature'
-			).innerText = `${data.main.temp.toFixed(1)} ℃`;
-			document.querySelector(
-				'.chill-factor'
-			).innerText = `Feels like: ${data.main.feels_like.toFixed(1)} ℃`;
-			document.querySelector(
-				'.wind'
-			).innerText = `Wind: ${data.wind.speed.toFixed(1)}ms`;
+	// Destructuring the lat and lon properties from the first array element in the object.
+	const { lat, lon } = dataLanLon[0];
 
-			const dateSunrise = new Date(data.sys.sunrise);
-			const timeSunrise = dateSunrise.toLocaleTimeString([], {
-				hourCycle: 'h23',
-				hour: '2-digit',
-				minute: '2-digit',
-			});
-
-			let dateSunset = new Date(data.sys.sunset);
-			let timeSunset = dateSunset.toLocaleTimeString('en-GB', {
-				hourCycle: 'h23',
-				hour: '2-digit',
-				minute: '2-digit',
-			});
-			document.querySelector('.sunrise-img').src = 'img/sunrise.png';
-			document.querySelector('.sunset-img').src = 'img/sunset.png';
-			document.querySelector('.sunrise').innerText = `${timeSunrise}`;
-			document.querySelector('.sunset').innerText = `${timeSunset}`;
-		})
-		.catch((err) => console.log(err));
+	// returning the lat, lon and searchInput variables which will be used in our other function to fetch the weather.
+	return [lat, lon, searchInput];
 }
