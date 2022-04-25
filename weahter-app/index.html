@@ -13,6 +13,12 @@
 			rel="stylesheet"
 		/>
 
+		<!-- FONT AWESOME -->
+		<script
+			src="https://kit.fontawesome.com/e4b743f868.js"
+			crossorigin="anonymous"
+		></script>
+
 		<title>THE WEATHER APP</title>
 		<link rel="stylesheet" href="reset.css" />
 		<link rel="stylesheet" href="style.css" />
@@ -29,14 +35,26 @@
 		</header>
 		<main>
 			<section class="current-weather">
-				<div class="city-temp">
-					<h2 class="current-city">Copenhagen</h2>
-					<span class="current-city-location"></span>
+				<div class="location">
+					<i class="fa-solid fa-location-dot"></i>
+					<h3 class="current-city">Copenhagen</h3>
 				</div>
-				<div class="weather-description-container">
-					<h3 class="weather-description"></h3>
-					<img src="" alt="" class="current-icon" />
-					<h3 class="current-temp">12</h3>
+				<img
+					src="http://openweathermap.org/img/wn/10d@2x.png"
+					alt=""
+					class="current-icon"
+				/>
+				<h3 class="weather-description">Cloudy</h3>
+				<h2 class="current-temp">12</h2>
+				<div class="wind-humid-container">
+					<div class="wind-container">
+						<i class="fa-solid fa-wind"></i>
+						<h4 class="wind"></h4>
+					</div>
+					<div class="humid-container">
+						<i class="fa-solid fa-droplet"></i>
+						<h4 class="humid"></h4>
+					</div>
 				</div>
 				<div class="sunrise-sunset"></div>
 			</section>
