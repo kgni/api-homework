@@ -7,6 +7,8 @@ const weatherDescription = document.querySelector('.weather-description');
 const windText = document.querySelector('.wind');
 const humidText = document.querySelector('.humid');
 
+const loader = document.querySelector('.loader');
+
 searchBtn.addEventListener('click', fetchWeather);
 const API_KEY = '0a0a00077254b920fcee144964349838';
 
@@ -30,6 +32,7 @@ async function fetchLatLon() {
 }
 
 async function fetchWeather() {
+	loader.classList.remove('hide');
 	// Saving the data from our fetchLatLon() function.
 	const location = await fetchLatLon();
 
@@ -57,6 +60,10 @@ async function fetchWeather() {
 	weatherDescription.innerText = weather[0].main;
 	windText.innerText = `${wind.speed.toFixed(1)} m/s`;
 	humidText.innerText = `${main.humidity} %`;
+
+	setTimeout(() => {
+		loader.classList.add('hide');
+	}, 150);
 }
 
 // TODO - Fetch forecast
