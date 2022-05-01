@@ -6,6 +6,7 @@ html {
 
 body {
 	font-family: 'Inter', sans-serif;
+	min-height: 100vh;
 }
 
 .container {
@@ -62,7 +63,10 @@ header {
 main {
 	display: grid;
 	grid-template-columns: fit-content(50%);
+	grid-template-rows: fit-content(50%);
 	grid-auto-flow: column;
+	position: relative;
+	height: 100%;
 }
 
 /* CURRENT TEMP */
@@ -138,25 +142,42 @@ main {
 	gap: 0.4rem;
 }
 
+/* FORECAST */
+
+.forecast {
+	display: flex;
+}
+
+.card {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+.card:not(:last-child) {
+	margin-right: 3.6rem;
+}
+
 /* LOADER */
 
 .loader {
 	position: absolute;
 	display: flex;
+	flex-grow: 1;
 	justify-content: center;
 	height: 100%;
 	width: 100%;
 	top: 0;
-	background-color: rgba(222, 222, 222, 0.9);
+	z-index: 999;
+	background-color: rgba(53, 53, 53, 0.9);
 }
 
 .lds-roller {
-	top: 20%;
+	top: 30%;
 	display: inline-block;
 	position: relative;
 	width: 80px;
 	height: 80px;
-	transform: scale(0.6);
 }
 .lds-roller div {
 	animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;

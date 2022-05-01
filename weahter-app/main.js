@@ -60,6 +60,7 @@ async function fetchWeather() {
 	weatherDescription.innerText = weather[0].main;
 	windText.innerText = `${wind.speed.toFixed(1)} m/s`;
 	humidText.innerText = `${main.humidity} %`;
+	await fetchForecast();
 
 	setTimeout(() => {
 		loader.classList.add('hide');
@@ -80,6 +81,67 @@ async function fetchForecast() {
 
 	const dataForecast = await resForecast.json();
 
-	const day1 = new Date(dataForecast.daily[0].dt);
-	console.log(day1.toLocaleString('en-us', { weekday: 'long' }));
+	console.log(dataForecast);
+
+	const card = document.querySelectorAll('.card');
+	card.forEach((el) => {
+		el.remove();
+	});
+
+	dataForecast.daily.forEach((day) => {
+		const forecast = document.querySelector('.forecast');
+		const card = document.createElement('div');
+		card.classList.add('card');
+		forecast.appendChild(card);
+		// const dayEl = document.createElement('h3');
+		// dayEl.innerText = new Date(day.dt);
+		// dayEl.classList.add('day');
+		// forecast.appendChild(dayEl);
+
+		const icon = document.createElement('img');
+		icon.src = `http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`;
+		icon.classList.add('current-icon');
+
+		const weather = document.createElement('h3');
+		weather.innerText = day.weather[0].main;
+		weather.classList.add('weather-description');
+
+		const temp = document.createElement('h2');
+		temp.innerText = `${day.temp.day.toFixed(1)}°C`;
+		temp.classList.add('temp');
+
+		const windHumidContainer = document.createElement('div');
+		windHumidContainer.classList.add('wind-humid-container');
+
+		const windContainer = document.createElement('div');
+		windContainer.classList.add('wind-container');
+
+		const windIcon = document.createElement('i');
+		windIcon.classList.add('fa-solid', 'fa-wind');
+		const wind = document.createElement('h4');
+		wind.innerText = `${day.wind_speed.toFixed(1)} m/s`;
+
+		const humidContainer = document.createElement('div');
+		humidContainer.classList.add('humid-container');
+
+		const humidIcon = document.createElement('i');
+		humidIcon.classList.add('fa-solid', 'fa-droplet');
+
+		const humid = document.createElement('h4');
+		humid.innerText = `${day.humidity}%`;
+
+		card.appendChild(icon);
+		card.appendChild(weather);
+		card.appendChild(temp);
+		card.appendChild(windHumidContainer);
+		windHumidContainer.appendChild(windContainer);
+		windHumidContainer.appendChild(humidContainer);
+		windContainer.appendChild(windIcon);
+		windContainer.appendChild(wind);
+
+		humidContainer.appendChild(humidIcon);
+		humidContainer.appendChild(humid);
+	});
+
+	// console.log(day1.toLocaleString('en-us', { weekday: 'long' }));
 }
